@@ -62,13 +62,13 @@ class Renderer {
 
     // ctx:          canvas context
     drawSlide3(ctx) {
-        this.drawRectangle(({x: 25, y: 150}), ({x: 40, y: 500}), [255,165,0, 255], ctx);
-        this.drawBezierCurve(({x: 40, y: 420}), ({x: 60, y: 450}), ({x: 170, y: 500}), ({x: 150, y: 75}), [255,165,0,255], ctx);
+        this.drawRectangle(({x: 25, y: 150}), ({x: 40, y: 400}), [255,165,0, 255], ctx);
+        this.drawBezierCurve(({x: 40, y: 320}), ({x: 60, y: 450}), ({x: 170, y: 480}), ({x: 150, y: 150}), [255,165,0,255], ctx);
         this.drawCircle(({x: 275, y: 225}), 75, [255,165,0,255], ctx);
         this.drawCircle(({x: 450, y: 225}), 75, [255,165,0,255], ctx);
         this.drawRectangle(({x: 520, y: 150}), ({x: 530, y: 300}), [255,165,0, 255], ctx);
         this.drawRectangle(({x: 575, y: 150}), ({x: 590, y: 500}), [255,165,0, 255], ctx);
-        this.drawBezierCurve(({x: 590, y: 420}), ({x: 605, y: 450}), ({x: 735, y: 500}), ({x: 715, y: 75}), [255,165,0,255], ctx);
+        this.drawBezierCurve(({x: 590, y: 420}), ({x: 605, y: 450}), ({x: 735, y: 500}), ({x: 715, y: 150}), [255,165,0,255], ctx);
 
 
     }
@@ -144,7 +144,8 @@ class Renderer {
         ctx.strokeStyle = 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ',' + (color[3]/255.0) + ')';
         ctx.beginPath();
         ctx.moveTo(pt0.x, pt0.y);
-        for (let t = 0; t < 1; t+=1/slider_value) {
+        let t;
+        for (t = 0; t < 1; t+=1/slider_value) {
 
             let newx = Math.pow((1-t),3) * pt0.x + 3 * Math.pow((1-t), 2) * t * pt1.x + 3 * (1-t) * Math.pow(t, 2) * pt2.x + Math.pow(t,3) * pt3.x;
             let newy = Math.pow((1-t),3) * pt0.y + 3 * Math.pow((1-t), 2) * t * pt1.y + 3 * (1-t) * Math.pow(t, 2) * pt2.y + Math.pow(t,3) * pt3.y;
@@ -152,6 +153,12 @@ class Renderer {
             ctx.lineTo(newx, newy);
             pts.push({x: newx, y: newy});
         }
+        t = 1;
+        let newnewx = Math.pow((1-t),3) * pt0.x + 3 * Math.pow((1-t), 2) * t * pt1.x + 3 * (1-t) * Math.pow(t, 2) * pt2.x + Math.pow(t,3) * pt3.x;
+        let newnewy = Math.pow((1-t),3) * pt0.y + 3 * Math.pow((1-t), 2) * t * pt1.y + 3 * (1-t) * Math.pow(t, 2) * pt2.y + Math.pow(t,3) * pt3.y;
+
+        ctx.lineTo(newnewx, newnewy);
+        pts.push({x: newnewx, y: newnewy});
         ctx.stroke();
 
         if (this.show_points) {
